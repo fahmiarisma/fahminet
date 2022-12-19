@@ -64,5 +64,5 @@ const connect = async () => {
 	})
 
 }
-connect()
+connect(port, host)
 
