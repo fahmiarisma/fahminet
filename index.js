@@ -15,13 +15,6 @@ watchFile('./handler/message.js', () => {
 		console.log(`reloaded message.js`)
 	}
 })
-const app = express()
-app.all('/', (req, res) => {
-    console.log("Just got a request!")
-    res.send('Yo!')
-})
-app.listen(process.env.PORT || 3000)
-
 
 const connect = async () => {
 	const { state, saveCreds } = await useMultiFileAuthState(path.resolve(`${sessionName}-session`), Pino({ level: 'silent' }))
