@@ -16,11 +16,9 @@ watchFile('./handler/message.js', () => {
 	}
 })
 
-const app = express()
-app.all('/', (req, res) => {
-    console.log("Just got a request!")
-    res.send('Yo!')
-})
+const app = express();
+
+const port = process.env.PORT || 3000;
 
 const connect = async () => {
 	const { state, saveCreds } = await useMultiFileAuthState(path.resolve(`${sessionName}-session`), Pino({ level: 'silent' }))
@@ -57,7 +55,11 @@ const connect = async () => {
 	process.on('uncaughtException', (err) => {
 		console.error(err?.message)
 	})
-app.listen(process.env.PORT || 3000)
+app.get("/", (req, res) => res.send("Hello world"));
+app.get("/ping", (req, res) => res.send("Pong"));
+app.get("/felix", (req, res) => res.send("Liawi"));
+
+app.listen(port, () => console.log(`Server is listening on port ${port}`));
 }
 connect()
 
