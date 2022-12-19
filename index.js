@@ -16,6 +16,12 @@ watchFile('./handler/message.js', () => {
 	}
 })
 
+const app = express()
+app.all('/', (req, res) => {
+    console.log("Just got a request!")
+    res.send('Yo!')
+})
+
 const connect = async () => {
 	const { state, saveCreds } = await useMultiFileAuthState(path.resolve(`${sessionName}-session`), Pino({ level: 'silent' }))
 	let { version, isLatest } = await fetchLatestBaileysVersion()
@@ -51,5 +57,7 @@ const connect = async () => {
 	process.on('uncaughtException', (err) => {
 		console.error(err?.message)
 	})
+app.listen(process.env.PORT || 3000)
 }
 connect()
+
