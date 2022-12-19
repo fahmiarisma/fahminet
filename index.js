@@ -62,7 +62,10 @@ const connect = async () => {
 	process.on('uncaughtException', (err) => {
 		console.error(err?.message)
 	})
-
+app.listen(port, host, () => {
+    whatsapp.init()
+    console.log(`Server is listening on http://${host}:${port}`)
+})
 }
-connect(port, host)
+connect()
 
