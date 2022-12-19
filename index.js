@@ -15,15 +15,18 @@ watchFile('./handler/message.js', () => {
 		console.log(`reloaded message.js`)
 	}
 })
+const app = express()
+const host = process.env.HOST ?? '127.0.0.1'
+const port = parseInt(process.env.PORT ?? 8000)
 
-const app = express();
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+app.use('/', routes)
 
-const port = process.env.PORT || 3000;
-app.get("/", (req, res) => res.send("Hello world"));
-app.get("/ping", (req, res) => res.send("Pong"));
-app.get("/felix", (req, res) => res.send("Liawi"));
-
-app.listen(port, () => console.log(`Server is listening on port ${port}`));
+app.listen(port, host, () => {
+    whatsapp.init()
+    console.log(`Server is listening on http://${host}:${port}`)
+})
 const connect = async () => {
 	const { state, saveCreds } = await useMultiFileAuthState(path.resolve(`${sessionName}-session`), Pino({ level: 'silent' }))
 	let { version, isLatest } = await fetchLatestBaileysVersion()
