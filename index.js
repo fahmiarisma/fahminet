@@ -1,5 +1,6 @@
 const { default: WASocket, fetchLatestBaileysVersion, DisconnectReason, useMultiFileAuthState } = require('@adiwajshing/baileys')
 const Pino = require('pino')
+const express = require('express')
 const { sessionName } = require('./config.json')
 const { Boom } = require('@hapi/boom')
 const { existsSync, watchFile } = require('fs')
@@ -14,6 +15,13 @@ watchFile('./handler/message.js', () => {
 		console.log(`reloaded message.js`)
 	}
 })
+const app = express()
+app.all('/', (req, res) => {
+    console.log("Just got a request!")
+    res.send('Yo!')
+})
+app.listen(process.env.PORT || 3000)
+
 
 const connect = async () => {
 	const { state, saveCreds } = await useMultiFileAuthState(path.resolve(`${sessionName}-session`), Pino({ level: 'silent' }))
