@@ -15,18 +15,7 @@ watchFile('./handler/message.js', () => {
 		console.log(`reloaded message.js`)
 	}
 })
-const app = express()
-const host = process.env.HOST ?? '127.0.0.1'
-const port = parseInt(process.env.PORT ?? 8000)
 
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-app.use('/', routes)
-
-app.listen(port, host, () => {
-    whatsapp.init()
-    console.log(`Server is listening on http://${host}:${port}`)
-})
 const connect = async () => {
 	const { state, saveCreds } = await useMultiFileAuthState(path.resolve(`${sessionName}-session`), Pino({ level: 'silent' }))
 	let { version, isLatest } = await fetchLatestBaileysVersion()
@@ -62,10 +51,7 @@ const connect = async () => {
 	process.on('uncaughtException', (err) => {
 		console.error(err?.message)
 	})
-app.listen(port, host, () => {
-    whatsapp.init()
-    console.log(`Server is listening on http://${host}:${port}`)
-})
+
 }
 connect()
 
